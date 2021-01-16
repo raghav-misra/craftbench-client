@@ -1,5 +1,5 @@
 <template>
-    <section class="page">
+    <section class="page auth-page">
         <form @submit.prevent="authSubmit" class="pull-up">
             <h1 class="title brand">Craftbench</h1>
             <h2 class="subtitle">{{ isSignup ? "Signup" : "Login" }}</h2>
@@ -119,8 +119,8 @@ export default Vue.extend({
         async continueSignup() {
             try {
                 // SIGNUP LOGIC
-                await this.$swal("Success!", "Check your email for a confirmation message. You can close this tab.", "success");
-                this.$router.push("/");
+                await this.$swal("Success!", "Press OK to finish creating your account.", "success");
+                this.$router.push("/onboarding");
             }
 
             catch (error) {
@@ -146,6 +146,10 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+hr {
+    background-color: var(--light) !important;
+}
+
 .page {
     display: flex;
     flex-direction: column;
@@ -155,10 +159,23 @@ export default Vue.extend({
 }
 
 form {
-    background: white;
+    background: var(--dark);
     padding: 2rem 4rem;
     min-width: 25rem;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     border-radius: 20px;
+}
+
+:not(small):not(button):not(a) {
+    color: var(--light) !important;
+}
+
+a:hover, a:active {
+    color: var(--success);
+}
+</style>
+
+<style>
+.page.auth-page label {
+    color: var(--light) !important;
 }
 </style>
