@@ -1,0 +1,44 @@
+<template>
+  <div class="m-5 text-black px-8 inset-0 border-solid border-b-2 ">
+      <section class="grid grid-cols-3">
+      <div class="col-span-2 my-2">
+          <span v-if="project.canViewTitle || project.public" class="bg-yellow-200 px-4">{{project.name}}</span>
+          <span v-else class="bg-yellow-200 px-4 italic">Title Private</span>
+          <p>{{project.contribution}}</p>
+
+          <a v-if="project.public" class="underline" href="/">Project Link</a>
+          <p v-else class="italic text-gray-500">Project not public</p>
+      </div>
+      <div>
+           <p>Completion</p>
+      <radial-progress-bar :diameter="100" :completed-steps="completed" :total-steps="total" startColor="#EDDDD4" stopColor="#EDDDD4">
+      </radial-progress-bar>
+      </div>
+      </section>
+
+  </div>
+</template>
+
+<script>
+import RadialProgressBar from 'vue-radial-progress'
+export default {
+ props:{
+     project:Object,
+ },
+ components: {
+    RadialProgressBar
+  },
+  computed:{
+      completed(){
+          return this.project.tasks.map(e=>e.subtasks).reduce((a,b)=>a=a.concat(b),[]).filter(e=>e.completed).length
+      },
+      total(){
+          return this.project.tasks.map(e=>e.subtasks).length
+      }
+  }
+}
+</script>
+
+<style>
+
+</style>

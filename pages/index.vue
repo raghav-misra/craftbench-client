@@ -1,6 +1,24 @@
 <template>
     <section class="page">
         <div class="hero hero1">
+			<div class = "video">
+				<iframe 
+					src="https://www.youtube.com/embed/tgbNymZ7vqY?autoplay=1&mute=1&loop=1">
+				</iframe>
+				<!-- Add a placeholder for the Twitch embed -->
+<div id="twitch-embed"></div>
+
+<!-- Load the Twitch embed script -->
+<script src="https://player.twitch.tv/js/embed/v1.js"></script>
+
+<!-- Create a Twitch.Player object. This will render within the placeholder div -->
+<script type="text/javascript">
+  new Twitch.Player("twitch-embed", {
+    channel: "andydachicken"
+  });
+</script>
+			</div>
+				
             <div class="hero-body top-header columns">
                 <div class="column has-text-right" style="display: flex; flex-direction: column; justify-content: center;">
                     <h1 class="title is-1">
@@ -179,6 +197,10 @@
         opacity: 1;
         transform: none;
     }
+}
+
+.video {
+	background-size: cover;
 }
 
 </style>

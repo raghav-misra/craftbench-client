@@ -16,7 +16,8 @@
         "core-js": "^3.6.5",
         "nuxt": "^2.14.6",
         "nuxt-buefy": "^0.4.3",
-        "sweetalert2": "^10.13.0"
+        "sweetalert2": "^10.13.0",
+        "vue-radial-progress": "^0.3.2"
     },
     "devDependencies": {
         "@nuxt/types": "^2.14.6",

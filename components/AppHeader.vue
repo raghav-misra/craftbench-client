@@ -9,6 +9,12 @@
             <b-navbar-item tag="nuxt-link" to="/">
                 Home
             </b-navbar-item>
+            <b-navbar-item tag="nuxt-link" to="/event">
+                Events
+            </b-navbar-item>
+            <b-navbar-item tag="nuxt-link" to="/myprojects">
+                My Projects
+            </b-navbar-item>
         </template>
 
         <template #end>

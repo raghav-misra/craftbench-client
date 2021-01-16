@@ -6,8 +6,8 @@
 </template>
 
 <style>
-* {
-    overflow: hidden !important;
+html,body{
+    overflow: hidden;
 }
 
 main {
