@@ -23,5 +23,6 @@ main {
 
 section.page {
     flex: 1;
+    overflow-y: scroll !important;
 }
 </style>
