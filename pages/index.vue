@@ -1,34 +1,37 @@
 <template>
     <section class="page">
         <div class="hero hero1">
-            <div class="hero-body top-header">
-                <h1 class="title is-1 top-header">
-                    Craftbench
-                </h1>
-                    <!-- <div class="left-image">
-                        <img src="@/assets/images/add-files.svg">
-                    </div> -->
-                <div class="top-text">
-                    juiciest crafting benches in the continental united states
+            <div class="hero-body top-header columns">
+                <div class="column has-text-right" style="display: flex; flex-direction: column; justify-content: center;">
+                    <h1 class="title is-1">
+                        Craftbench
+                    </h1>
+                    <div class="subtitle">
+                        The best project management platform.
+                    </div>
                 </div>
+                <div class="left-image column">
+                    <img src="@/assets/images/add-files.svg">
+                </div>
+                
                 
             </div>
         </div>
 
         <div class="hero hero2">
             <div class="hero-body">
-                <h1 class="title is-2"> 2nd heroo!</h1>
+                <h1 class="title is-2"> Gamified Experience</h1>
                 <div class="paragraph2">
-                    <p> WE are the besttttt We ar ebest etughsdiughl ufkgh kudjthglr</p>
+                    <p> Craftbench turns working on projects into a fun motivating game.</p>
                 </div> 
             </div>
         </div>
 
         <div class="hero hero3">
             <div class="hero-body">
-                <h1 class="title is-2">3nd hero!</h1>
+                <h1 class="title is-2">Another Feature</h1>
                 <div class="paragraph3">
-                    <p> WE are the besttttt</p>
+                    <p> Feature description</p>
                 </div> 
             </div>
         </div>
@@ -118,10 +121,6 @@
 </template>
 
 <style scoped>
-.page {
-    background-color: var(--light);
-}
-
 .top-header {
     text-align: center; 
 }
@@ -155,10 +154,6 @@
     text-align: center;
 }
 
-.top-text {
-    margin-top: 5rem;
-}
-
 .cards {
     background-color: var(--dark);
     color: white;
@@ -169,20 +164,21 @@
     color: var(--light) !important;
 }
 
-/* .left-image {
-  bottom: 15%;
-  position: absolute;
-  -webkit-animation: linear infinite;
-  -webkit-animation-name: run;
-  -webkit-animation-duration: 5s;
+ .left-image img {
+  animation: image-in 1s linear;
+  height: 20rem;
+ }
+
+@keyframes image-in {
+    from {
+        opacity: 0;
+        transform: translateX(200%);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
 }
-@keyframes run {
-  0% {
-    left: 0;
-  }
-  50% {
-    left: 100%;
-  }
-} */
 
 </style>
