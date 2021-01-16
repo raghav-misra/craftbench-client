@@ -1,0 +1,16 @@
+:root {
+    --primary: #00D1E0;
+    --danger: #EF6461;
+    --info: #197278;
+    --dark: #231123;
+    --light: #EDDDD4;
+    --success: #53DD6C;
+    --warning: #F9DC5C;
+}
+
+*,
+input,
+select,
+textarea {
+    font-family: "Space Mono";
+}

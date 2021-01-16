@@ -151,7 +151,7 @@ export default Vue.extend({
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-image: linear-gradient(-20deg, #b721ff 0%, #21d4fd 100%);
+    background: var(--light);
 }
 
 form {
@@ -159,6 +159,6 @@ form {
     padding: 2rem 4rem;
     min-width: 25rem;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    border-radius: 10px;
+    border-radius: 20px;
 }
 </style>
