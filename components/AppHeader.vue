@@ -6,14 +6,11 @@
             </b-navbar-item>
         </template>
         <template #start>
-            <b-navbar-item tag="nuxt-link" to="/">
-                Home
-            </b-navbar-item>
             <b-navbar-item tag="nuxt-link" to="/event">
-                Events
+                Your Event
             </b-navbar-item>
-            <b-navbar-item tag="nuxt-link" to="/myprojects">
-                My Projects
+            <b-navbar-item tag="nuxt-link" to="/projects">
+                Projects
             </b-navbar-item>
         </template>
 
