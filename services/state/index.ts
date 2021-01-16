@@ -1,5 +1,17 @@
 import Vue from "vue";
 
+export interface IEvent{
+    title: string
+    desc:string
+    cta:string
+    contributions: {
+        small:string[]
+        med:string[]
+        large:string[]
+    }
+}
+
+
 const state = Vue.observable({
     currentEventName: "dragon",
     events:{
@@ -13,7 +25,7 @@ const state = Vue.observable({
             large:['Anti Dragon Magic'],
           }
         }
-      }
+      } as Record<string,IEvent>
 });
 
 export default state;
