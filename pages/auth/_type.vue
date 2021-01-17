@@ -1,9 +1,6 @@
-<template>
+        <template>
     <section class="page auth-page">
-        <form
-            @submit.prevent="authSubmit"
-            class="pull-up"
-        >
+        <form @submit.prevent="authSubmit" class="pull-up">
             <h1 class="title brand">Craftbench</h1>
             <h2 class="subtitle">{{ isSignup ? "Signup" : "Login" }}</h2>
 
@@ -11,70 +8,38 @@
 
             <b-field label="Email Address">
                 <div>
-                    <b-input
-                        type="text"
-                        placeholder="john.doe@example.com"
-                        v-model="fields.email"
-                    />
+                    <b-input type="text" placeholder="john.doe@example.com" v-model="fields.email" />
                     <small v-if="!fields.email">Required</small>
-                    <small
-                        v-else-if="!isValidEmail"
-                        class="has-text-danger"
-                    >That email doesn't look right.</small>
+                    <small v-else-if="!isValidEmail" class="has-text-danger">That email doesn't look right.</small>
                 </div>
             </b-field>
-
+            
             <b-field label="Password">
                 <div>
-                    <b-input
-                        type="password"
-                        placeholder="Don't tell anyone!"
-                        v-model="fields.password"
-                    />
+                    <b-input type="password" placeholder="Don't tell anyone!" v-model="fields.password" />
                     <small v-if="!fields.password">Required</small>
-                    <small
-                        v-else-if="fields.password.length < 8 && isSignup"
-                        class="has-text-danger"
-                    >At least 8 characters please.</small>
+                    <small v-else-if="fields.password.length < 8 && isSignup" class="has-text-danger">At least 8 characters please.</small>
                 </div>
-            </b-field>
+            </b-field>  
 
-            <b-field
-                label="Confirm Password"
-                v-if="isSignup"
-            >
+            <b-field label="Confirm Password" v-if="isSignup">
                 <div>
-                    <b-input
-                        type="password"
-                        placeholder="One more time please."
-                        v-model="fields.confirmPassword"
-                    />
+                    <b-input type="password" placeholder="One more time please." v-model="fields.confirmPassword" />
                     <small v-if="!fields.confirmPassword">Required</small>
-                    <small
-                        v-else-if="fields.password !== fields.confirmPassword"
-                        class="has-text-danger"
-                    >The passwords don't match.</small>
+                    <small v-else-if="fields.password !== fields.confirmPassword" class="has-text-danger">The passwords don't match.</small>
                 </div>
             </b-field>
 
             <hr>
 
             <b-field>
-                <b-button
-                    type="is-success is-fullwidth"
-                    native-type="submit"
-                    :loading="isSubmitProcessing"
-                >
+                <b-button type="is-success is-fullwidth" native-type="submit" :loading="isSubmitProcessing">
                     Let's Continue ⟶
                 </b-button>
             </b-field>
 
-            <small v-if="isSignup">
-                <nuxt-link to="/auth/login">Already have an account?</nuxt-link>
-            </small>
-            <small v-else>
-                <nuxt-link to="/auth/signup">Don't have an account?</nuxt-link>
-            </small>
+            <small v-if="isSignup"><nuxt-link to="/auth/login">Already have an account?</nuxt-link></small>
+            <small v-else><nuxt-link to="/auth/signup">Don't have an account?</nuxt-link></small>
         </form>
     </section>
 </template>
@@ -107,7 +72,7 @@ export default Vue.extend({
 
     methods: {
         // Middleman function calls signup or login:
-        async authSubmit() {
+        async authSubmit() {            
             this.isSubmitProcessing = true;
 
             // Validate the form fields:
@@ -122,7 +87,7 @@ export default Vue.extend({
             this.isSubmitProcessing = false;
         },
 
-        async validateFields(): Promise<boolean> {
+       async validateFields(): Promise<boolean> {
             // Validate email:
             if (!this.isValidEmail) {
                 await this.$swal("Is that your email?", "Make sure the email you typed in is correct.", "warning");
@@ -204,224 +169,7 @@ form {
     color: var(--light) !important;
 }
 
-a:hover,
-a:active {
-
-            catch (error) {
-                console.log("login error", error);
-                await this.$swal("An error occurred.", `${error}`.split(":")[2], "error");
-            }
-        }
-    }
-});
-</script>
-
-<style scoped>
-hr {
-    background-color: var(--light) !important;
-}
-
-.page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: var(--light);
-}
-
-form {
-    background: var(--dark);
-    padding: 2rem 4rem;
-    min-width: 25rem;
-    border-radius: 20px;
-}
-
-:not(small):not(button):not(a) {
-    color: var(--light) !important;
-}
-
-a:hover,
-a:active {
-
-            catch (error) {
-                console.log("login error", error);
-                await this.$swal("An error occurred.", `${error}`.split(":")[2], "error");
-            }
-        }
-    }
-});
-</script>
-
-<style scoped>
-hr {
-    background-color: var(--light) !important;
-}
-
-.page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: var(--light);
-}
-
-form {
-    background: var(--dark);
-    padding: 2rem 4rem;
-    min-width: 25rem;
-    border-radius: 20px;
-}
-
-:not(small):not(button):not(a) {
-    color: var(--light) !important;
-}
-
-a:hover,
-a:active {
-
-            catch (error) {
-                console.log("login error", error);
-                await this.$swal("An error occurred.", `${error}`.split(":")[2], "error");
-            }
-        }
-    }
-});
-</script>
-
-<style scoped>
-hr {
-    background-color: var(--light) !important;
-}
-
-.page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: var(--light);
-}
-
-form {
-    background: var(--dark);
-    padding: 2rem 4rem;
-    min-width: 25rem;
-    border-radius: 20px;
-}
-
-:not(small):not(button):not(a) {
-    color: var(--light) !important;
-}
-
-a:hover,
-a:active {
-
-            catch (error) {
-                console.log("login error", error);
-                await this.$swal("An error occurred.", `${error}`.split(":")[2], "error");
-            }
-        }
-    }
-});
-</script>
-
-<style scoped>
-hr {
-    background-color: var(--light) !important;
-}
-
-.page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: var(--light);
-}
-
-form {
-    background: var(--dark);
-    padding: 2rem 4rem;
-    min-width: 25rem;
-    border-radius: 20px;
-}
-
-:not(small):not(button):not(a) {
-    color: var(--light) !important;
-}
-
-a:hover,
-a:active {
-
-            catch (error) {
-                console.log("login error", error);
-                await this.$swal("An error occurred.", `${error}`.split(":")[2], "error");
-            }
-        }
-    }
-});
-</script>
-
-<style scoped>
-hr {
-    background-color: var(--light) !important;
-}
-
-.page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: var(--light);
-}
-
-form {
-    background: var(--dark);
-    padding: 2rem 4rem;
-    min-width: 25rem;
-    border-radius: 20px;
-}
-
-:not(small):not(button):not(a) {
-    color: var(--light) !important;
-}
-
-a:hover,
-a:active {
-
-            catch (error) {
-                console.log("login error", error);
-                await this.$swal("An error occurred.", `${error}`.split(":")[2], "error");
-            }
-        }
-    }
-});
-</script>
-
-<style scoped>
-hr {
-    background-color: var(--light) !important;
-}
-
-.page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: var(--light);
-}
-
-form {
-    background: var(--dark);
-    padding: 2rem 4rem;
-    min-width: 25rem;
-    border-radius: 20px;
-}
-
-:not(small):not(button):not(a) {
-    color: var(--light) !important;
-}
-
-a:hover,
-a:active {
+a:hover, a:active {
     color: var(--success);
 }
 </style>

@@ -27,7 +27,7 @@
                             :value="60"
                         ></b-progress>
                     </div>
-                    <div class="bg-white text-black has-text-centered p-4 py-12 rounded-2xl shadow-md">
+                    <div class="bg-white text-black has-text-centered p-4 py-20 rounded-2xl shadow-md">
                         <h1 class="text-lg bold">~Activity Log~</h1>
                         <div class="max-h-52 overflow-scroll overflow-x-hidden">
                             <ActivityLog
@@ -53,11 +53,11 @@
                         </div>
                     </div>
                 </section>
-                <section class="bg-white rounded-2xl my-10">
+                <section class="hover:bg-white rounded-2xl my-5 py-8 group transition-all ease-in-out duration-200">
                     <h1 class="has-text-centered text-2xl p-2 text-black font-bold text-sh">~{{currentEvent.pending}}~</h1>
                     <div
                         style="max-height: 40rem"
-                        class="overflow-y-scroll"
+                        class="group-hover:overflow-y-scroll overflow-y-hidden"
                     >
                         <PendingProject :project="{name:'History Day Project',public:false,contribution:'Anti Dragon Magic',canViewTitle:true,tasks:[{subtasks:[{completed:true},{completed:true}]},{subtasks:[{completed:false}]},{subtasks:[{completed:false}]}]}" />
                         <PendingProject :project="{name:'History Day Project',public:false,canViewTitle:true,tasks:[{subtasks:[{completed:true},{completed:true}]},{subtasks:[{completed:false}]},{subtasks:[{completed:false}]}]}" />

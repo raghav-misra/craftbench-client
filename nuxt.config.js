@@ -1,4 +1,9 @@
 export default {
+    //No hacking me
+    env:{
+        baseUrl: 'https://y106kn.deta.dev'
+    },
+
     // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
     ssr: false,
 

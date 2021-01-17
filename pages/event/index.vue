@@ -1,8 +1,5 @@
 <template>
-    <div
-        class="text-left w-screen h-screen bg-no-repeat bg-cover"
-        :style="{'backgroundImage':'url(/event/' + currentEventName + '/banner.jpg)'}"
-    >
+    <div class="text-left w-screen h-screen bg-no-repeat bg-cover" :style="{'backgroundImage':'url(/event/' + currentEventName + '/banner.jpg)'}">
         <div class="md:grid grid-cols-2">
             <section class="p-6 h-screen bg-black bg-opacity-50 rounded-bl-md rounded-br-md">
                 <h1 class="text-6xl max-w-min tracking-in-contract-bck text-white my-4 py-3">{{currentEvent.title}}</h1>
@@ -11,29 +8,32 @@
                     <b-button type="is-primary">{{currentEvent.cta}}</b-button>
                 </p>
             </section>
-            <section class="slide-in-right">
+            <section class="slide-in-right ">
                 <div class="p-16 text-center m-24 my-20 shadow-md has-background-light">
                     <h1 class="text-xl">What you can contribute to the task force!</h1><br>
                     <p class="italic text-gray-600">Small Projects (1 Day - 1 Week)</p>
-                    <img
-                        class="max-h-20 my-5"
-                        :src="require(`~/assets/event/${currentEventName}/small-0.svg`)"
-                    />
-                    <p>{{currentEvent.contributions.small[0]}}</p>
+                    <b-carousel :interval="3000" :indicator="false" :pause-hover="false">
+                        <b-carousel-item v-for="(name,i) in currentEvent.contributions.small" :key="`small-${i}`">
+                            <img class="max-h-20 my-5" :src="require(`~/assets/event/${currentEventName}/small-${i}.svg`)" />
+                            <p>{{name}}</p>
+                        </b-carousel-item>
+                    </b-carousel>
                     <br><br>
                     <p class="italic text-gray-600">Medium Projects (1 Week - 1 Month)</p>
-                    <img
-                        class="max-h-20 my-5"
-                        :src="require(`~/assets/event/${currentEventName}/med-0.svg`)"
-                    />
-                    <p>{{currentEvent.contributions.med[0]}}</p>
+                    <b-carousel :interval="4000" :indicator="false" :pause-hover="false">
+                        <b-carousel-item v-for="(name,i) in currentEvent.contributions.med" :key="`med-${i}`">
+                            <img class="max-h-20 my-5" :src="require(`~/assets/event/${currentEventName}/med-${i}.svg`)" />
+                            <p>{{name}}</p>
+                        </b-carousel-item>
+                    </b-carousel>
                     <br><br>
                     <p class="italic text-gray-600">Large Projects (1 Month +)</p>
-                    <img
-                        class="max-h-20 my-5"
-                        :src="require(`~/assets/event/${currentEventName}/large-0.svg`)"
-                    />
-                    <p>{{currentEvent.contributions.large[0]}}</p>
+                    <b-carousel :interval="5000" :indicator="false" :pause-hover="false">
+                        <b-carousel-item v-for="(name,i) in currentEvent.contributions.large" :key="`small-${i}`">
+                            <img class="max-h-20 my-5" :src="require(`~/assets/event/${currentEventName}/large-${i}.svg`)" />
+                            <p>{{name}}</p>
+                        </b-carousel-item>
+                    </b-carousel>
                 </div>
             </section>
         </div>
@@ -60,9 +60,9 @@ export default Vue.extend({
 
 <style scoped>
 .slide-in-right {
-    -webkit-animation: slide-in-right 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 2s
+    -webkit-animation: slide-in-right 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1.5s
         both;
-    animation: slide-in-right 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 2s both;
+    animation: slide-in-right 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1.5s both;
 }
 @-webkit-keyframes slide-in-right {
     0% {
