@@ -33,7 +33,7 @@ export default {
           return this.project.tasks.map(e=>e.subtasks).reduce((a,b)=>a=a.concat(b),[]).filter(e=>e.completed).length
       },
       total(){
-          return this.project.tasks.map(e=>e.subtasks).length
+          return this.project.tasks.map(e=>e.subtasks).reduce((a,b)=>a=a.concat(b),[]).length
       }
   }
 }

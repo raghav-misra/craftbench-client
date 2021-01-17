@@ -12,7 +12,8 @@ module.exports = {
   },
   variants: {
     extend: {
-      overflow:["group-hover"]
+      overflow:['group-hover'],
+      translate:['group-hover']
     },
   },
   plugins: [],
