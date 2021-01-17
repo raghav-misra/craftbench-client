@@ -7,7 +7,7 @@
         </template>
         <template #start>
             <b-navbar-item tag="nuxt-link" to="/event">
-                Your Event
+                Event
             </b-navbar-item>
             <b-navbar-item tag="nuxt-link" to="/projects">
                 Projects

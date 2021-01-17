@@ -6,11 +6,10 @@
 
             <hr>
 
-            <b-field label="Email Address">
+            <b-field label="Username">
                 <div>
-                    <b-input type="text" placeholder="john.doe@example.com" v-model="fields.email" />
-                    <small v-if="!fields.email">Required</small>
-                    <small v-else-if="!isValidEmail" class="has-text-danger">That email doesn't look right.</small>
+                    <b-input type="text" placeholder="JohnSmith" v-model="fields.username" />
+                    <small v-if="!fields.username">Required</small>
                 </div>
             </b-field>
             
@@ -46,12 +45,12 @@
 
 <script lang="ts">
 import Vue from "vue";
-
+import axios, {AxiosResponse} from "axios";
 export default Vue.extend({
     data() {
         return {
             fields: {
-                email: "",
+                username:"",
                 password: "",
                 confirmPassword: "",
             },
@@ -63,10 +62,6 @@ export default Vue.extend({
     computed: {
         isSignup() {
             return this.$route.params.type === "signup";
-        },
-        isValidEmail(): boolean {
-            const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return emailRegex.test(this.fields.email.toLowerCase());
         }
     },
 
@@ -88,15 +83,9 @@ export default Vue.extend({
         },
 
        async validateFields(): Promise<boolean> {
-            // Validate email:
-            if (!this.isValidEmail) {
-                await this.$swal("Is that your email?", "Make sure the email you typed in is correct.", "warning");
-                return false;
-            }
-
             // Test for required fields:
             const isSignupConfirmationMissing = this.isSignup && !this.fields.confirmPassword;
-            if (!this.fields.email || !this.fields.password || isSignupConfirmationMissing) {
+            if ( !this.fields.password || isSignupConfirmationMissing) {
                 await this.$swal("Try again.", "Please fill out all fields.", "warning");
                 return false;
             };
@@ -119,6 +108,9 @@ export default Vue.extend({
         async continueSignup() {
             try {
                 // SIGNUP LOGIC
+                await axios.post(process.env.baseUrl + '/users/create',{
+                    
+                })
                 await this.$swal("Success!", "Press OK to finish creating your account.", "success");
                 this.$router.push("/onboarding");
             }
@@ -132,13 +124,16 @@ export default Vue.extend({
         async continueLogin() {
             try {
                 // LOGIN LOGIC
+                const res = await axios.post(process.env.baseUrl + '/users/login',{
+                    username:this.fields.username,
+                    password:this.fields.password
+                })
                 await this.$swal("Success!", "Redirecting you to the dashboard.", "success");
                 this.$router.push("/app");
             }
 
             catch (error) {
-                console.log("login error", error);
-                await this.$swal("An error occurred.", `${error}`.split(":")[2], "error");
+                await this.$swal("An error occurred.", `${error.response.data.msg}`, "error");
             }
         }
     }

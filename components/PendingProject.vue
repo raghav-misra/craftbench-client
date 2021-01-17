@@ -1,13 +1,13 @@
 <template>
-  <div class="m-5 text-black px-8 inset-0 border-solid border-b-2 ">
+  <div class="m-5 text-black px-8 inset-0">
       <section class="grid grid-cols-3">
       <div class="col-span-2 my-2">
-          <span v-if="project.canViewTitle || project.public" class="bg-yellow-200 px-4">{{project.name}}</span>
-          <span v-else class="bg-yellow-200 px-4 italic">Title Private</span>
-          <p>{{project.contribution}}</p>
+          <span v-if="project.canViewTitle || project.public" class="bg-yellow-200 px-4 opacity-100">{{project.name}}</span>
+          <span v-else class="bg-yellow-200 px-4 italic opacity-100">Title Private</span>
+          <p class="opacity-0 group-hover:opacity-100">{{project.contribution}}</p>
 
-          <a v-if="project.public" class="underline" href="/">Project Link</a>
-          <p v-else class="italic text-gray-500">Project not public</p>
+          <a v-if="project.public" class="underline opacity-0 group-hover:opacity-100" href="/">Project Link</a>
+          <p v-else class="italic text-gray-500 opacity-0 group-hover:opacity-100">Project not public</p>
       </div>
       <div>
            <p>Completion</p>
