@@ -1,15 +1,24 @@
 <template>
     <b-navbar>
         <template #brand>
-            <b-navbar-item tag="nuxt-link" to="/">
+            <b-navbar-item
+                tag="nuxt-link"
+                to="/"
+            >
                 <b>Craftbench</b>
             </b-navbar-item>
         </template>
         <template #start>
-            <b-navbar-item tag="nuxt-link" to="/event">
+            <b-navbar-item
+                tag="nuxt-link"
+                to="/event"
+            >
                 Event
             </b-navbar-item>
-            <b-navbar-item tag="nuxt-link" to="/projects">
+            <b-navbar-item
+                tag="nuxt-link"
+                to="/projects"
+            >
                 Projects
             </b-navbar-item>
         </template>
@@ -18,8 +27,8 @@
             <b-navbar-item tag="div">
                 <b-field>
                     <p class="control">
-                        <b-button 
-                            type="is-success" 
+                        <b-button
+                            type="is-success"
                             tag="nuxt-link"
                             to="/auth/signup"
                         >
@@ -27,8 +36,8 @@
                         </b-button>
                     </p>
                     <p class="control">
-                        <b-button 
-                            type="is-dark" 
+                        <b-button
+                            type="is-dark"
                             tag="nuxt-link"
                             to="/auth/login"
                         >
@@ -42,5 +51,4 @@
 </template>
 
 <style scoped>
-
 </style>
