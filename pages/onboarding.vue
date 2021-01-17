@@ -51,6 +51,8 @@ import Vue from "vue";
 import state, { login } from "~/state";
 
 export default Vue.extend({
+    middleware: "onboarding",
+
     data() {
         return {
             fields: {

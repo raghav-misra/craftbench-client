@@ -11,6 +11,13 @@ const state = Vue.observable({
     // User token:
     token: null as (string | null),
 
+    // User data:
+    userData: {
+        name: "",
+        email: "",
+        username: ""
+    },
+
     // Store temporary data for onboarding
     temporarySignupData: {
         username: null as (string | null),

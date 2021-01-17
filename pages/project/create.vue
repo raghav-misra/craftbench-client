@@ -1,8 +1,8 @@
 <template>
-  <div class=" w-screen h-screen text-center bg-no-repeat bg-cover bg-center"  :style="{'backgroundImage':'url(/event/' + state.currentEventName + '/banner.jpg)'}">
-      <div class="grid grid-cols-2">
+  <div class=" w-screen h-screen text-center bg-no-repeat bg-cover bg-center overflow-y-scroll"  :style="{'backgroundImage':'url(/event/' + state.currentEventName + '/banner.jpg)'}">
+      <div class="md:grid grid-cols-2">
           <section class="py-10 has-background-light h-screen overflow-y-scroll" >
-              <h1 class="text-white text-5xl font-bold font-sans">Welcome to Craftbench, {name}</h1>
+              <h1 class="text-white text-5xl font-bold font-sans">Welcome to Craftbench</h1>
               <h2 class="text-white text-2xl font-sans">Let's build something awesome! </h2>
               <section class="box m-4 my-12 text-left px-80">
                   <form @submit.prevent="">
@@ -83,6 +83,7 @@
 <script>
 import state from "../../state"
 export default {
+    middleware:"auth",
     data(){
         return{
             project:{

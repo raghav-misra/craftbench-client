@@ -1,6 +1,6 @@
 <template>
     <div
-        class="text-left w-screen h-screen bg-no-repeat bg-cover"
+        class="text-left w-screen h-screen bg-no-repeat bg-cover overflow-y-scroll"
         :style="{'backgroundImage':'url(/event/' + currentEventName + '/banner.jpg)'}"
     >
         <div class="md:grid grid-cols-2">
