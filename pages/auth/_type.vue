@@ -8,7 +8,7 @@
             <h2 class="subtitle">{{ isSignup ? "Signup" : "Login" }}</h2>
 
             <hr>
-
+    
             <b-field label="Username">
                 <div>
                     <b-input
