@@ -23,17 +23,38 @@
                     <radial-progress-bar
                         :diameter="175"
                         :completed-steps="completed"
-                        :total-steps="total"
+                        :total-steps="project.tasks.filter(e=>e!==undefined && e!==false).map(e => e.subtasks).reduce((a, b) => a = a.concat(b), []).length"
                         startColor="#EDDDD4"
                         stopColor="#EDDDD4"
+                        class="inline-block"
                     >
                         <p
                             class="text-white text-center"
                             style="text-shadow: 0 4px 8px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);"
                         >Project Completion!</p>
                     </radial-progress-bar>
-                </section>
-                <section class="opacity-40 hover:opacity-100 h-screen duration-200 bg-gray-500 hover:translate-y-0 transform translate-y-52 ">
+                    <div class="inline-block">
+                        <b-field>
+                            <b-button v-if="!ui.changeImage" @click="triggerSwitch('changeImage')" type="is-info" class="inline-block">Change Banner
+                            </b-button>
+                            <b-input v-else type="url" placeholder="Image Url" v-model="project.banner"
+                                @focusout.native="triggerSwitch('changeImage')" ref="changeImage"></b-input>
+                        </b-field>
+                        <b-collapse :open="false">
+                        <template #trigger>
+                            <b-button type="is-info">Share Project</b-button>
+                        </template>
+                        <form>
+                            <b-field>
+                            <b-button type="is-success" native-type="submit">Share</b-button>
+                            <b-input type="email" required placeholder="Email"
+                                ref="share"></b-input>
+                            </b-field>
+                        </form>
+                        </b-collapse>
+                    </div>
+                    </section>
+                <section class="opacity-20 hover:opacity-100 h-screen duration-200 bg-gray-500 hover:translate-y-0 transform translate-y-52 ">
                     <div class="container p-7 text-white">
                         <b-button
                             type="is-primary"
@@ -107,7 +128,9 @@ export default {
             globalIndex: 0,
             ui: {
                 editTitle: false,
-                editDesc: false
+                editDesc: false,
+                changeImage:false,
+                share:false,
             },
             project: {
                 title: "Play Forited",
@@ -170,10 +193,7 @@ export default {
             return this.project.tasks.filter(t => t !== false)
         },
         completed() {
-            return this.project.tasks.map(e => e.subtasks).reduce((a, b) => a = a.concat(b), []).filter(e => e.completed).length
-        },
-        total() {
-            return this.project.tasks.map(e => e.subtasks).reduce((a, b) => a = a.concat(b), []).length
+            return this.project.tasks.map(e => e.subtasks).reduce((a, b) => a = a.concat(b), []).filter(e => e && e.completed).length
         }
     }
 }
@@ -190,9 +210,7 @@ input.seamless-title {
     color: white;
     text-shadow: 0 4px 8px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
 }
-::-webkit-scrollbar {
-    width: 10px;
-}
+
 ::-webkit-scrollbar-track {
     background: #f1f1f1;
 }

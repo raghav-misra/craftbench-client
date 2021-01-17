@@ -4,7 +4,7 @@
            <h1 v-if="!ui.editingTitle" @click="triggerSwitchTitle(`editTaskTitle-${index}`)" class="text-3xl bold mx-5">&nbsp;{{task.name}} <span v-if="isComplete" class="slide-in-elliptic-bottom-bck">✅🎉</span> </h1>
            <input v-else v-model="task.name" @focusout="triggerSwitchTitle(`editTaskTitle-${index}`)" :ref="`editTaskTitle-${index}`" class="seamless-input seamless-tasktitle"/>
        </div>
-       <div class="m-5 overflow-y-scroll max-h-24">
+       <div class="m-5 overflow-y-scroll max-h-28">
                 <b-field  v-for="(st,i) in task.subtasks" :key="`${index}-${i}`">
         
                     <b-checkbox v-model="st.completed">{{st.name}}</b-checkbox> 
