@@ -1,25 +1,44 @@
 <template>
     <section class="page has-background-info">
-        <form class="section has-background-light" @submit.prevent="createAccount">
+        <form
+            class="section has-background-light"
+            @submit.prevent="createAccount"
+        >
             <div class="container level">
                 <div class="level-item mockup">
                     <img src="@/assets/images/verified.svg">
                 </div>
-                <div class="level-item" style="display: block;">
+                <div
+                    class="level-item"
+                    style="display: block;"
+                >
                     <h1 class="title has-text-info">Finish setting up your account.</h1>
                     <br>
 
                     <label class="label is-size-5">Full Name</label>
                     <b-field>
-                        <b-input v-model="fields.name" type="text" placeholder="Jonathan Doverman" required />
+                        <b-input
+                            v-model="fields.name"
+                            type="text"
+                            placeholder="Jonathan Doverman"
+                            required
+                        />
                     </b-field>
 
                     <label class="label is-size-5">Email Address</label>
                     <b-field>
-                        <b-input v-model="fields.email" type="email" placeholder="john.doe@johndoe.io" required />
+                        <b-input
+                            v-model="fields.email"
+                            type="email"
+                            placeholder="john.doe@johndoe.io"
+                            required
+                        />
                     </b-field>
 
-                    <b-button type="is-success" native-type="submit">Let's get going!</b-button>
+                    <b-button
+                        type="is-success"
+                        native-type="submit"
+                    >Let's get going!</b-button>
                 </div>
             </div>
         </form>
@@ -44,7 +63,7 @@ export default Vue.extend({
     methods: {
         async createAccount() {
             try {
-                const signupRes = axios.post(`${process.env.baseUrl}/users/create`, {
+                const signupRes = await axios.post(`${state.GLOBALS.BASE_URL}/users/create`, {
                     name: this.fields.name,
                     email: this.fields.email,
                     username: state.temporarySignupData.username,
@@ -52,13 +71,13 @@ export default Vue.extend({
                 });
 
                 const loginToken = await login(
-                    state.temporarySignupData.username as string, 
+                    state.temporarySignupData.username as string,
                     state.temporarySignupData.password as string
                 );
 
                 await this.$swal(
-                    `Welcome ${this.fields.name}!`, 
-                    "Created your account and redirecting...", 
+                    `Welcome ${this.fields.name}!`,
+                    "Created your account and redirecting...",
                     "success"
                 );
                 this.$router.push("/projects");

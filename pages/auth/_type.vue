@@ -141,18 +141,18 @@ export default Vue.extend({
 
         async continueSignup() {
             try {
-                const res = await axios.get(`${process.env.baseUrl}/users/exists_by_username/${this.fields.username}`);
-
+                const res = await axios.get(`${state.GLOBALS.BASE_URL}/users/exists_by_username/${this.fields.username}`);
+                console.log(res)
                 if (res.data.exists) {
+                    await this.$swal("Sorry!", "That username is already taken!", "info");
+                }
+
+                else {
                     await this.$swal("Success!", "Press OK to finish creating your account.", "success");
                     state.temporarySignupData.username = this.fields.username;
                     state.temporarySignupData.password = this.fields.password;
                     state.temporarySignupData.onboardingPhase = true;
                     this.$router.push("/onboarding");
-                }
-
-                else {
-                    await this.$swal("Sorry!", "That username is already taken!", "info");
                 }
             }
 
