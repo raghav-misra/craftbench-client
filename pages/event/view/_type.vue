@@ -73,7 +73,8 @@
 
 <script lang="ts">
 import Vue from "vue";
-import state from "../../../services/state";
+import state from "@/state";
+import { IEvent } from "~/@types";
 
 export default Vue.extend({
     data() {
@@ -82,14 +83,14 @@ export default Vue.extend({
         }
     },
     computed: {
-        eventID() {
-            return this.$route.params.type
+        eventID(): string {
+            return this.$route.params.type;
         },
-        currentEvent() {
-            return state.events[state.currentEventName]
+        currentEvent(): IEvent {
+            return state.events[state.currentEventName];
         },
-        currentEventName() {
-            return state.currentEventName
+        currentEventName(): string {
+            return state.currentEventName;
         }
     }
 });

@@ -1,10 +1,10 @@
 <template>
     <section class="page">
         <div class="hero hero1">
-            <div class="video">
+            <!-- <div class="video">
                 <iframe src="https://www.youtube.com/embed/tgbNymZ7vqY?autoplay=1&mute=1&loop=1">
                 </iframe>
-            </div>
+            </div> -->
 
             <div class="hero-body top-header columns">
                 <div

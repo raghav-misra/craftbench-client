@@ -1,7 +1,7 @@
 export default {
     //No hacking me
     env:{
-        baseUrl: 'https://y106kn.deta.dev'
+        baseUrl: "https://y106kn.deta.dev"
     },
 
     // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
@@ -45,7 +45,7 @@ export default {
     buildModules: [
         // https://go.nuxtjs.dev/typescript
         "@nuxt/typescript-build",
-        '@nuxtjs/tailwindcss'
+        "@nuxtjs/tailwindcss"
     ],
 
     // Modules (https://go.nuxtjs.dev/config-modules)
