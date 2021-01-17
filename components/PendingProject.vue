@@ -4,7 +4,7 @@
       <div class="col-span-2 my-2">
           <span v-if="project.canViewTitle || project.public" class="bg-yellow-200 px-4 opacity-100">{{project.name}}</span>
           <span v-else class="bg-yellow-200 px-4 italic opacity-100">Title Private</span>
-          <p class="opacity-0 group-hover:opacity-100">{{project.contribution}}</p>
+          <p class="opacity-100">{{project.contribution}}</p>
 
           <a v-if="project.public" class="underline opacity-0 group-hover:opacity-100" href="/">Project Link</a>
           <p v-else class="italic text-gray-500 opacity-0 group-hover:opacity-100">Project not public</p>
