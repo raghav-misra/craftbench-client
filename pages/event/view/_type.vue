@@ -22,7 +22,7 @@
                             class="float max-w-md"
                         />
                         <b-progress
-                            type="is-success"
+                        type="is-success"
                             class="m-4"
                             :value="60"
                         ></b-progress>

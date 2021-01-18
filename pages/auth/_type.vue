@@ -8,7 +8,7 @@
             <h2 class="subtitle">{{ isSignup ? "Signup" : "Login" }}</h2>
 
             <hr>
-
+    
             <b-field label="Username">
                 <div>
                     <b-input
@@ -164,9 +164,13 @@ export default Vue.extend({
 
         async continueLogin() {
             try {
+                const lastRoute = this.$route.query.url as string;
                 await login(this.fields.username, this.fields.password);
-                await this.$swal("Success!", "Redirecting you to the dashboard.", "success");
-                this.$router.push("/projects");
+                if(lastRoute){
+                    this.$router.push(decodeURIComponent(lastRoute));
+                    return;
+                }
+                this.$router.push("/projects/");
             }
 
             catch (error) {

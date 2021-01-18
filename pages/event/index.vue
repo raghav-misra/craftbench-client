@@ -1,6 +1,6 @@
 <template>
     <div
-        class="text-left w-screen h-screen bg-no-repeat bg-cover"
+        class="text-left w-screen h-screen bg-no-repeat bg-cover overflow-y-scroll"
         :style="{'backgroundImage':'url(/event/' + currentEventName + '/banner.jpg)'}"
     >
         <div class="md:grid grid-cols-2">
@@ -8,7 +8,9 @@
                 <h1 class="text-6xl max-w-min tracking-in-contract-bck text-white my-4 py-3">{{currentEvent.title}}</h1>
                 <p class="text-white swing-in-top-fwd text-lg">{{currentEvent.desc}}
                     <br><br>
+                    <nuxt-link to="/project/create">
                     <b-button type="is-primary">{{currentEvent.cta}}</b-button>
+                    </nuxt-link>
                 </p>
             </section>
             <section class="slide-in-right ">

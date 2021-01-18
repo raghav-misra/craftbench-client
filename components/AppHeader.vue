@@ -25,7 +25,7 @@
 
         <template #end>
             <b-navbar-item tag="div">
-                <b-field>
+                <b-field v-if="!state.token">
                     <p class="control">
                         <b-button
                             type="is-success"
@@ -45,10 +45,34 @@
                         </b-button>
                     </p>
                 </b-field>
+                 <b-field v-else>
+                    <p class="control">
+                        <b-button
+                            type="is-primary"
+                            @click="logout()"
+                        >
+                            Log Out
+                        </b-button>
+                    </p>
+                </b-field>
             </b-navbar-item>
         </template>
     </b-navbar>
 </template>
 
-<style scoped>
-</style>
+<script>
+import state from "../state"
+export default {
+    computed: {
+        state(){
+            return state;
+        }
+    },
+    methods: {
+        async logout(){
+            state.token = false
+            this.$router.push("/")
+        }
+    }
+}
+</script>
