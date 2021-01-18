@@ -9,7 +9,7 @@
                 <p class="text-white swing-in-top-fwd text-lg">{{currentEvent.desc}}
                     <br><br>
                     <nuxt-link to="/project/create">
-                    <b-button type="is-primary">{{currentEvent.cta}}</b-button>
+                        <b-button type="is-primary">{{currentEvent.cta}}</b-button>
                     </nuxt-link>
                 </p>
             </section>
