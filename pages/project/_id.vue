@@ -79,6 +79,9 @@
                             </b-button>
                         </section>
                     </b-collapse>
+                    <nuxt-link :to="`/event/view/${project.region}`">
+                        <b-button>View Region Event</b-button>
+                    </nuxt-link>
                 </section>
                 <section
                     v-if="ui.share"
