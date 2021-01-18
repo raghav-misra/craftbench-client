@@ -377,7 +377,7 @@ export default {
                     })
                     if (res.data.success) {
                         Toast.open("Project Submited")
-                        this.$router.push(`/event/${this.project.region}`)
+                        this.$router.push(`/event/view/${this.project.region}`)
                     } else {
                         this.$swal("Error in Submitting!", `${e.msg} Try again later`, 'error')
                     }
