@@ -5,7 +5,7 @@
               <h1 class="text-white text-5xl font-bold font-sans">Welcome to Craftbench</h1>
               <h2 class="text-white text-2xl font-sans">Let's build something awesome! </h2>
               <section class="box m-4 my-12 text-left px-80">
-                  <form @submit.prevent="">
+                  <form @submit.prevent="createProject()">
                   <div>
                       <span class="text-gray-500 text-lg text-left font-sans">Project Name : </span>
                       <b-input required v-model="project.name" type="text" class="lined-input focus:border-blue-400" />
@@ -15,7 +15,7 @@
                       <b-input required v-model="project.desc" type="textarea" class="focus:border-blue-400"> </b-input>
                   </div>
                   <div class="scale-in-center" v-if="project.name.trim() !== '' && project.desc.trim() !== ''">
-                      <span class="text-gray-500 text-lg text-left font-sans">Project Length (don't worry, you can change this later</span>
+                      <span class="text-gray-500 text-lg text-left font-sans">Project Length (don't worry, you can change this later)</span>
                       <b-field>
                           <b-select required @input.native="(e)=>{project.contributionType = e.target.value; project.contribution = 0}" placeholder="Select a Length">
                               <option value="small">
@@ -59,7 +59,7 @@
                               </div>
                           </div>
                       </div><br><br>
-                      <b-button type="is-success" class="fade" native-type="submit" v-if="project.contribution !== false">Create Project!</b-button>
+                      <b-button type="is-success" :loading="state.loading" class="fade" native-type="submit" v-if="project.contribution !== false">Create Project!</b-button>
                       </div>
                       </form>
                   
@@ -82,8 +82,32 @@
 
 <script>
 import state from "../../state"
+import axios from "axios"
 export default {
-    middleware:"auth",
+    middleware:'auth',
+    methods:{
+        async createProject(){
+            state.loading = true
+            try{
+                const res = await axios.post(state.GLOBALS.BASE_URL + '/projects/create',{
+                    project_id: this.id,
+                    ...this.project
+                },{
+                    headers: {
+                        authorization: `Bearer ${state.token}`
+                    }
+                })
+                if(res.data.success){
+                   state.loading = false
+                   this.$router.push(`/project/${res.data.data.id}`)
+                }
+            }catch(e){
+                this.$swal("Error in Project Creation!",`Try again later`,'error')
+                 state.loading = false
+            }
+
+        },
+    },
     data(){
         return{
             project:{
@@ -93,6 +117,7 @@ export default {
                 canViewTitle:true,
                 public:false,
                 region:"global",
+                banner:"https://w.wallhaven.cc/full/72/wallhaven-726qly.jpg",
                 contribution:false,
             }
         }

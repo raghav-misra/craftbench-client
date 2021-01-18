@@ -7,7 +7,8 @@ const state = Vue.observable({
     GLOBALS: {
         BASE_URL: "https://y106kn.deta.dev"
     },
-
+    //loading state
+    loading: false,
     // User token:
     token: null as (string | null),
 

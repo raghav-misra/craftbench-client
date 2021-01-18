@@ -1,42 +1,48 @@
 <template>
     <div>
-        <div class="grid grid-cols-5">
+        <div v-if="project !== false" class="grid grid-cols-5">
             <section
-                class="h-screen col-span-2"
+                class="h-screen col-span-2 bg-cover"
                 :style="`background-image:url('${project.banner}')` "
             >
                 <section class="has-background-info">
                     <h1 @click="triggerSwitch('editTitle')" class="bold font-sans break-normal mx-4 text-white inline-block" v-if="!ui.editTitle"
-                        :style="`text-shadow: 0 4px 8px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);font-size:3vw;`">{{project.title}}</h1>
+                        :style="`text-shadow: 0 4px 8px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);font-size:3vw;`">{{project.name}}</h1>
                     <section v-else>
-                        <input v-model="project.title" @focusout="triggerSwitch('editTitle')" ref="editTitle" class="seamless-input seamless-title" />
+                        <input v-model="project.name" @focusout="triggerSwitch('editTitle')" ref="editTitle" class="seamless-input seamless-title" />
                     </section>
-                    <b-button type="is-primary is-light" class="float-right m-5" rounded @click="ui.options = !ui.options">Options</b-button>
+                    <b-button type="is-primary is-light" class="float-right m-5" :class="{noti:changes}" rounded @click="ui.options = !ui.options">Options <div class="noti-badge animate-pulse" v-if="changes"></div></b-button>
                     <b-collapse :open="ui.options">
                         <section class="w-full py-4">
                             <b-button type="is-primary" @click="addTask()">Add Task</b-button>
-                            <b-button type="is-success" class="animate-bounce">Save</b-button>
+                            <b-button type="is-success" :disabled="!changes" :loading="state.loading" :class="{'animate-bounce':changes}" @click="saveProject()">Save</b-button>
                             <b-dropdown aria-role="list">
                                 <template #trigger="{ active }">
                                     <b-button label="More" type="is-primary" :icon-right="active ? 'menu-up' : 'menu-down'" />
                                 </template>
-                                <b-dropdown-item aria-role="listitem" @click="ui.share = true">Share</b-dropdown-item>
+                                <b-dropdown-item aria-role="listitem"  @click="ui.share = true">Share</b-dropdown-item>
                                 <b-dropdown-item aria-role="listitem" @click="ui.changeImage = true">Change Background Image</b-dropdown-item>
+                                <b-dropdown-item aria-role="listitem" class="has-background-danger"  @click="deleteProject()">Delete Project</b-dropdown-item>
                             </b-dropdown>
+                             <b-button icon-right="sword" @click="submitProject()" v-if="project.tasks.filter(e=>e!==undefined && e!==false).map(e => e.subtasks).reduce((a, b) => a = a.concat(b), []).length == completed" type="is-success">
+                                 Submit Project
+                             </b-button>
                         </section>
                     </b-collapse>
                 </section>
                 <section v-if="ui.share" class="bg-white shadow-md p-10">
                     <form @submit.prevent="">  
-                         <b-field label="Share Project Via Email">
-                             <b-input type="email" v-model="forms.email" required>
+                         <b-button class="float-right" @click="ui.share = false" icon-right="close" />
+                         <b-field label="Share Project Via Username">
+                             <b-input v-model="forms.username" required>
                              </b-input>
                          </b-field>
                          <b-button type="is-success" native-type="submit">Share</b-button>
                     </form>
                 </section>
                  <section v-if="ui.changeImage" class="bg-white shadow-md p-10">
-                    <form @submit.prevent="project.banner = forms.banner; ui.changeImage = false">  
+                    <form @submit.prevent="project.banner = forms.banner; ui.changeImage = false"> 
+                        <b-button class="float-right" @click="ui.changeImage = false" icon-right="close" /> 
                          <b-field label="Change Background Image">
                              <b-input type="url" v-model="forms.banner" required>
                              </b-input>
@@ -63,6 +69,19 @@
                             ></textarea>
                         </section>
                     </div>
+                       <radial-progress-bar
+                        :diameter="175"
+                        :completed-steps="completed"
+                        :total-steps="project.tasks.filter(e=>e!==undefined && e!==false).map(e => e.subtasks).reduce((a, b) => a = a.concat(b), []).length"
+                        startColor="#EDDDD4"
+                        stopColor="#EDDDD4"
+                        class="inline-block"
+                    >
+                        <p
+                            class="text-white text-center"
+                            style="text-shadow: 0 4px 8px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);"
+                        >Project Completion!</p>
+                    </radial-progress-bar>
                 </section>
             </section>
             <section class="col-span-3 h-screen has-background-light overflow-y-scroll">
@@ -83,13 +102,13 @@
                 >
                     <div
                         v-for="(task,i) in project.tasks"
-                        :key="`taskview-${i}`"
+                        :key="`taskview-${i}-${task.name}`"
                         class="group"
                     >
                         <template v-if="task">
                             <p
-                                class="del underline text-sm italic text-gray-400 cursor-pointer opacity-0 group-hover:opacity-100 duration-300 group-hover:translate-y-0 transform translate-y-52 "
-                                @click="removeTask(i)"
+                                class="del inline-block underline text-sm italic text-gray-400 cursor-pointer opacity-0 group-hover:opacity-100 duration-300 group-hover:translate-y-0 transform translate-y-52 "
+                                @click="removeTask(task)"
                             >Remove Task</p>
                             <TaskView
                                 v-model="project.tasks[i]"
@@ -100,18 +119,56 @@
                 </div>
             </section>
         </div>
+         <div v-else class="text-center flex h-screen w-screen has-background-light">
+            <div class="flex-auto m-auto">
+               <p v-if="error" class="text-red-600">
+                   {{error}}
+                   <nuxt-link to="/">
+                    <p class="underline cursor-pointer text-blue-300">Go Back Home -></p>
+                   </nuxt-link>
+               </p>
+               <p v-else>Loading Project...</p>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
 import RadialProgressBar from 'vue-radial-progress'
+import state from '../../state'
+import axios from 'axios'
+import { ToastProgrammatic as Toast } from 'buefy'
+
+
 export default {
+    middleware:'auth',
+    async mounted(){
+
+        if(!this.id || this.id.trim() == ''){
+            this.error = "Whatcha Doing Here?"
+            return;
+        }
+
+        try{
+             const res = await axios.get(state.GLOBALS.BASE_URL + `/projects/get_project_from_id/${this.id}`,{
+                    headers: {
+                        authorization: `Bearer ${state.token}`
+                    }
+             })
+             
+             this.oldProject = JSON.parse(JSON.stringify(res.data.data))
+             this.project = JSON.parse(JSON.stringify(res.data.data))
+        }catch (e) {
+            this.error = "Unknown Project. Are you lost?"
+        }
+    },
     data() {
         return {
             active:false,
+            error:false,
             globalIndex: 0,
             forms:{
-                email:"",
+                username:"",
                 banner:"",
             },
             ui: {
@@ -121,33 +178,129 @@ export default {
                 changeImage:false,
                 share:false,
             },
-            project: {
-                title: "Play Forited",
-                tasks: [
-                    {
-                        name: "Take Notes", subtasks: [
-                            { name: "1 Page", completed: true },
-                            { name: "2 Page", completed: false }
-
-                        ]
-                    },
-                    {
-                        name: "CHE Notes", subtasks: [
-                            { name: "1 Page", completed: true },
-                            { name: "2 Page", completed: false }
-
-                        ]
-                    }
-                ],
-                banner: "https://images.unsplash.com/photo-1559595414-d23623536723?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=658&q=80",
-                desc: "Project Description Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
-            }
+            oldProject:false,
+            project:false,
         }
     },
     components: {
         RadialProgressBar
     },
     methods: {
+        async saveProject(){
+            if(!this.changes){
+                return;
+            }
+            state.loading = true
+
+            try{
+                const res = await axios.post(state.GLOBALS.BASE_URL + '/projects/save',{
+                    project_id: this.id,
+                    data:this.project
+                },{
+                    headers: {
+                        authorization: `Bearer ${state.token}`
+                    }
+                })
+                if(res.data.success){
+                    Toast.open({message:'Your project has been saved',type:'is-success'})
+                }
+                this.oldProject = this.newProject
+                state.loading = false
+            }catch(e){
+                this.$swal("Error in Saving!",`We couldn't save! Try again later`,'error')
+                 state.loading = false
+            }
+
+        },
+        async shareProject(){
+            if(this.forms.username.trim() == ''){
+                return;
+            }
+            state.loading = true
+
+            try{
+                const res = await axios.post(state.GLOBALS.BASE_URL + '/projects/add_user',{
+                    project_id: this.id,
+                    username:this.forms.username
+                },{
+                    headers: {
+                        authorization: `Bearer ${state.token}`
+                    }
+                })
+                Toast.open({message:res.data.msg,type:'is-success'})
+                this.forms.username = ''
+                state.loading = false
+            }catch(e){
+                this.$swal("Error in Sharing!",`Try again later`,'error')
+                this.forms.username = ''
+                state.loading = false
+            }
+
+        },
+        async deleteProject() {
+            const confirm = await this.$swal({
+                title: 'Are you sure?',
+                text: "Only the owner can delete this project, and you can't recover it!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'I want to delete this project'
+            })
+
+            if (confirm.isConfirmed) {
+                try {
+                    const res = await axios.post(state.GLOBALS.BASE_URL + '/projects/delete', {
+                        project_id: this.id,
+                    }, {
+                        headers: {
+                            authorization: `Bearer ${state.token}`
+                        }
+                    })
+                    if (res.data.success) {
+                        Toast.open("Project Deleted")
+                        this.$router.push("/projects")
+                    } else {
+                        this.$swal("Error in Deleting!", `${e.msg} Try again later`, 'error')
+                    }
+                } catch (e) {
+                    this.$swal("Error in Deleting!", `Try again later`, 'error')
+                }
+
+            }
+        },
+         async submitProject() {
+            const confirm = await this.$swal({
+                title: 'Are you sure?',
+                text: "Only the owner can submit this project, and you can't modify it after it is sent!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'I want to submit this project'
+            })
+
+            if (confirm.isConfirmed) {
+                try {
+                    const res = await axios.post(state.GLOBALS.BASE_URL + '/projects/submit_project', {
+                        project_id: this.id,
+                    }, {
+                        headers: {
+                            authorization: `Bearer ${state.token}`
+                        }
+                    })
+                    if (res.data.success) {
+                        Toast.open("Project Submited")
+                        this.$router.push(`/event/${project.region}`)
+                    } else {
+                        this.$swal("Error in Submitting!", `${e.msg} Try again later`, 'error')
+                    }
+                } catch (e) {
+                    this.$swal("Error in Submitting!", `Try again later`, 'error')
+                }
+
+            }
+        },
         requestGlobalIndex() {
             this.globalIndex++
             return this.globalIndex
@@ -158,9 +311,9 @@ export default {
                 subtasks: []
             })
         },
-        removeTask(i) {
-            //  this.project.tasks.splice(i,1)
-            this.project.tasks[i] = false
+        removeTask(t) {
+
+            this.project.tasks = this.project.tasks.filter(tsk=>tsk !== t)
             this.$forceUpdate()
         },
         triggerSwitch(focus) {
@@ -175,8 +328,14 @@ export default {
         }
     },
     computed: {
+        state(){
+            return state
+        },
+        changes(){
+            return JSON.stringify(this.oldProject) !== JSON.stringify(this.project)
+        },
         id() {
-            return this.route.params.id
+            return this.$route.params.id
         },
         finalTasks() {
             return this.project.tasks.filter(t => t !== false)
@@ -189,6 +348,18 @@ export default {
 </script>
 
 <style>
+.noti-badge{
+    position: absolute;
+    top:-2.5px;
+    right:-2.5px;
+    width: 15px;
+    height: 15px;
+    background-color: var(--warning);
+    border-radius: 50%;
+}
+.noti{
+    position: relative;
+}
 input.seamless-input {
     background-color: transparent;
     outline: none;
