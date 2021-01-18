@@ -142,7 +142,6 @@ export default Vue.extend({
         async continueSignup() {
             try {
                 const res = await axios.get(`${state.GLOBALS.BASE_URL}/users/exists_by_username/${this.fields.username}`);
-                console.log(res)
                 if (res.data.exists) {
                     await this.$swal("Sorry!", "That username is already taken!", "info");
                 }
@@ -157,7 +156,6 @@ export default Vue.extend({
             }
 
             catch (error) {
-                console.log("SIGNUP ERROR", error);
                 await this.$swal("Something went wrong, retry later.", (error as AxiosError).response?.data.msg || (error as AxiosError).message, "error");
             }
         },
@@ -174,7 +172,6 @@ export default Vue.extend({
             }
 
             catch (error) {
-                console.log("LOGIN ERROR", error);
                 await this.$swal("An error occurred.", (error as AxiosError).response?.data.msg || (error as AxiosError).message, "error");
             }
         }

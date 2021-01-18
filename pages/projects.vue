@@ -41,7 +41,14 @@
 
                 <div class="project-body">
                     <h1 class="title is-5">{{ project.data.name }}</h1>
-                    <p>({{ project.data.region }})</p>
+                    <p>
+                        <nuxt-link 
+                            :to="`/event/view/${project.data.region}`" 
+                            style="color: var(--warning) !important;"
+                        >
+                            ({{ project.data.region }})
+                        </nuxt-link>
+                    </p>
                     <br>
                     <b-button 
                         tag="nuxt-link" :to="`/project/${project.id}`"

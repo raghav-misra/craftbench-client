@@ -5,7 +5,7 @@ import axios from "axios";
 const state = Vue.observable({
     // globals:
     GLOBALS: {
-        BASE_URL: "https://y106kn.deta.dev"
+        BASE_URL: "https://a120oc.deta.dev"
     },
     //loading state
     loading: false,
