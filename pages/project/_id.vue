@@ -284,14 +284,16 @@ export default {
                         authorization: `Bearer ${state.token}`
                     }
                 })
-                if (res.data.success) {
-                    Toast.open({ message: 'Your project has been saved', type: 'is-success' })
+                console.log(res.data)
+                if(res.data.success){
+                    Toast.open({message:'Your project has been saved',type:'is-success'})
                 }
-                this.oldProject = this.newProject
+                this.oldProject = JSON.parse(JSON.stringify(this.project))
                 state.loading = false
-            } catch (e) {
-                this.$swal("Error in Saving!", `We couldn't save! Try again later`, 'error')
-                state.loading = false
+            }catch(e){
+                console.log(e)
+                this.$swal("Error in Saving!",`We couldn't save! Try again later`,'error')
+                 state.loading = false
             }
 
         },

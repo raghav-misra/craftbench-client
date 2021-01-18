@@ -29,16 +29,16 @@
             <div class="hero-body">
                 <h1 class="title is-2"> Gamified Experience</h1>
                 <div class="paragraph2">
-                    <p> Craftbench turns working on projects into a fun motivating game.</p>
+                    <p class="feature-1"> Craftbench turns working on projects into a fun motivating game. <br>Users can team up and work to defeat an enemy, by submitting projects!</p>
                 </div>
             </div>
         </div>
 
         <div class="hero hero3">
             <div class="hero-body">
-                <h1 class="title is-2">Another Feature</h1>
+                <h1 class="title is-2">Manage Projects</h1>
                 <div class="paragraph3">
-                    <p> Feature description</p>
+                    <p class="feature-2"> Easy, intuitive, clear, efficient workspace. <br> Manage your upcoming submissions with a very fun UI experience. </p>
                 </div>
             </div>
         </div>
@@ -47,30 +47,30 @@
             <div class="columns benefit-cards">
                 <div class="column">
                     <div>
-                        <h2 class="subtitle">Personalized</h2>
-                        <h1 class="title">Recommendations</h1>
+                        <h2 class="subtitle">Private</h2>
+                        <h1 class="title">Workspaces</h1>
                         <br />
-                        <p>Discover shifts based on your interests.</p>
+                        <p>Private workspaces based on region and code.</p>
                         <img class="cover-image" />
                     </div>
                 </div>
 
                 <div class="column">
                     <div>
-                        <h2 class="subtitle">Find shifts</h2>
-                        <h1 class="title">Closest to you</h1>
+                        <h2 class="subtitle">Projects</h2>
+                        <h1 class="title">Gamified</h1>
                         <br />
-                        <p>Find the perfect shifts in your city.</p>
+                        <p>Submit different leveled projects to defeat an evil opponent.</p>
                         <img class="cover-image" />
                     </div>
                 </div>
 
                 <div class="column">
                     <div>
-                        <h2 class="subtitle">Interactive</h2>
-                        <h1 class="title">Leaderboard</h1>
+                        <h2 class="subtitle">Store</h2>
+                        <h1 class="title">Notes</h1>
                         <br />
-                        <p>Your standing in your city and state.</p>
+                        <p>Take notes for different topics and projects, and then view them later.</p>
                         <img class="cover-image" />
                     </div>
                 </div>
@@ -79,22 +79,21 @@
             <div class="columns benefit-cards">
                 <div class="column">
                     <div>
-                        <h2 class="subtitle">Detailed</h2>
-                        <h1 class="title">Statistics</h1>
+                        <h2 class="subtitle">Set up a</h2>
+                        <h1 class="title">Timeline</h1>
                         <br />
-                        <p>Receive detailed statistics on past shifts.</p>
+                        <p>Plan out a detailed timeline for your project.</p>
                         <img class="cover-image" />
                     </div>
                 </div>
 
                 <div class="column">
                     <div>
-                        <h2 class="subtitle">Unlock</h2>
-                        <h1 class="title">Milestones</h1>
+                        <h2 class="subtitle">Gain</h2>
+                        <h1 class="title">Rewards</h1>
                         <br />
                         <p>
-                            Unlock milestones as you progress and get more
-                            hours.
+                            Gain different rewards, powerups, and cool perks when submitting projects.
                         </p>
                         <img class="cover-image" />
                     </div>
@@ -102,10 +101,10 @@
 
                 <div class="column">
                     <div>
-                        <h2 class="subtitle">Detailed</h2>
-                        <h1 class="title">Calendar</h1>
+                        <h2 class="subtitle">Easy to</h2>
+                        <h1 class="title">Submit</h1>
                         <br />
-                        <p class>Track your upcoming shifts in a calendar.</p>
+                        <p class>Submit notes, projects, and other tasks to your teacher, boss, etc., all with ease.</p>
                         <img class="cover-image" />
                     </div>
                 </div>
@@ -129,12 +128,13 @@
 .hero2 {
     background-color: var(--light);
     height: 20rem;
-    text-align: right;
+    text-align: left;
 }
 
 .hero3 {
     background-color: var(--primary);
     height: 20rem;
+    text-align: right;
 }
 
 .paragraph2 {
@@ -178,5 +178,13 @@
 
 .video {
     background-size: cover;
+}
+
+.feature-1 {
+    font-size: 25px;
+}
+
+.feature-2 {
+    font-size: 25px;
 }
 </style>
