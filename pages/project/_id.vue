@@ -1,58 +1,135 @@
 <template>
     <div>
-        <div v-if="project !== false" class="grid grid-cols-5">
+        <div
+            v-if="project !== false"
+            class="grid grid-cols-5"
+        >
             <section
                 class="h-screen col-span-2 bg-cover"
                 :style="`background-image:url('${project.banner}')` "
             >
                 <section class="has-background-info">
-                    <h1 @click="triggerSwitch('editTitle')" class="bold font-sans break-normal mx-4 text-white inline-block" v-if="!ui.editTitle"
-                        :style="`text-shadow: 0 4px 8px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);font-size:3vw;`">{{project.name}}</h1>
+                    <h1
+                        @click="triggerSwitch('editTitle')"
+                        class="bold font-sans break-normal mx-4 text-white inline-block"
+                        v-if="!ui.editTitle"
+                        :style="`text-shadow: 0 4px 8px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);font-size:3vw;`"
+                    >{{project.name}}</h1>
                     <section v-else>
-                        <input v-model="project.name" @focusout="triggerSwitch('editTitle')" ref="editTitle" class="seamless-input seamless-title" />
+                        <input
+                            v-model="project.name"
+                            @focusout="triggerSwitch('editTitle')"
+                            ref="editTitle"
+                            class="seamless-input seamless-title"
+                        />
                     </section>
-                    <b-button type="is-primary is-light" class="float-right m-5" :class="{noti:changes}" rounded @click="ui.options = !ui.options">Options <div class="noti-badge animate-pulse" v-if="changes"></div></b-button>
+                    <b-button
+                        type="is-primary is-light"
+                        class="float-right m-5"
+                        :class="{noti:changes}"
+                        rounded
+                        @click="ui.options = !ui.options"
+                    >Options <div
+                            class="noti-badge animate-pulse"
+                            v-if="changes"
+                        ></div>
+                    </b-button>
                     <b-collapse :open="ui.options">
                         <section class="w-full py-4">
-                            <b-button type="is-primary" @click="addTask()">Add Task</b-button>
-                            <b-button type="is-success" :disabled="!changes" :loading="state.loading" :class="{'animate-bounce':changes}" @click="saveProject()">Save</b-button>
+                            <b-button
+                                type="is-primary"
+                                @click="addTask()"
+                            >Add Task</b-button>
+                            <b-button
+                                type="is-success"
+                                :disabled="!changes"
+                                :loading="state.loading"
+                                :class="{'animate-bounce':changes}"
+                                @click="saveProject()"
+                            >Save</b-button>
                             <b-dropdown aria-role="list">
                                 <template #trigger="{ active }">
-                                    <b-button label="More" type="is-primary" :icon-right="active ? 'menu-up' : 'menu-down'" />
+                                    <b-button
+                                        label="More"
+                                        type="is-primary"
+                                        :icon-right="active ? 'menu-up' : 'menu-down'"
+                                    />
                                 </template>
-                                <b-dropdown-item aria-role="listitem"  @click="ui.share = true">Share</b-dropdown-item>
-                                <b-dropdown-item aria-role="listitem" @click="ui.changeImage = true">Change Background Image</b-dropdown-item>
-                                <b-dropdown-item aria-role="listitem" class="has-background-danger"  @click="deleteProject()">Delete Project</b-dropdown-item>
+                                <b-dropdown-item
+                                    aria-role="listitem"
+                                    @click="ui.share = true"
+                                >Share</b-dropdown-item>
+                                <b-dropdown-item
+                                    aria-role="listitem"
+                                    @click="ui.changeImage = true"
+                                >Change Background Image</b-dropdown-item>
+                                <b-dropdown-item
+                                    aria-role="listitem"
+                                    class="has-background-danger"
+                                    @click="deleteProject()"
+                                >Delete Project</b-dropdown-item>
                             </b-dropdown>
-                             <b-button icon-right="sword" @click="submitProject()" v-if="project.tasks.filter(e=>e!==undefined && e!==false).map(e => e.subtasks).reduce((a, b) => a = a.concat(b), []).length == completed" type="is-success">
-                                 Submit Project
-                             </b-button>
+                            <b-button
+                                icon-right="sword"
+                                @click="submitProject()"
+                                v-if="project.tasks.filter(e=>e!==undefined && e!==false).map(e => e.subtasks).reduce((a, b) => a = a.concat(b), []).length == completed"
+                                type="is-success"
+                            >
+                                Submit Project
+                            </b-button>
                         </section>
                     </b-collapse>
                 </section>
-                <section v-if="ui.share" class="bg-white shadow-md p-10">
-                    <form @submit.prevent="">  
-                         <b-button class="float-right" @click="ui.share = false" icon-right="close" />
-                         <b-field label="Share Project Via Username">
-                             <b-input v-model="forms.username" required>
-                             </b-input>
-                         </b-field>
-                         <b-button type="is-success" native-type="submit">Share</b-button>
+                <section
+                    v-if="ui.share"
+                    class="bg-white shadow-md p-10"
+                >
+                    <form @submit.prevent="">
+                        <b-button
+                            class="float-right"
+                            @click="ui.share = false"
+                            icon-right="close"
+                        />
+                        <b-field label="Share Project Via Username">
+                            <b-input
+                                v-model="forms.username"
+                                required
+                            >
+                            </b-input>
+                        </b-field>
+                        <b-button
+                            type="is-success"
+                            native-type="submit"
+                        >Share</b-button>
                     </form>
                 </section>
-                 <section v-if="ui.changeImage" class="bg-white shadow-md p-10">
-                    <form @submit.prevent="project.banner = forms.banner; ui.changeImage = false"> 
-                        <b-button class="float-right" @click="ui.changeImage = false" icon-right="close" /> 
-                         <b-field label="Change Background Image">
-                             <b-input type="url" v-model="forms.banner" required>
-                             </b-input>
-                         </b-field>
-                         <b-button type="is-success" native-type="submit">Save</b-button>
+                <section
+                    v-if="ui.changeImage"
+                    class="bg-white shadow-md p-10"
+                >
+                    <form @submit.prevent="project.banner = forms.banner; ui.changeImage = false">
+                        <b-button
+                            class="float-right"
+                            @click="ui.changeImage = false"
+                            icon-right="close"
+                        />
+                        <b-field label="Change Background Image">
+                            <b-input
+                                type="url"
+                                v-model="forms.banner"
+                                required
+                            >
+                            </b-input>
+                        </b-field>
+                        <b-button
+                            type="is-success"
+                            native-type="submit"
+                        >Save</b-button>
                     </form>
                 </section>
                 <section class="opacity-20 hover:opacity-100 h-screen duration-200 bg-gray-500 hover:-translate-y-20 transform translate-y-52 ">
                     <div class="container p-7 text-white">
-                       
+
                         <br><br>
                         <p
                             @click="triggerSwitch('editDesc')"
@@ -69,7 +146,7 @@
                             ></textarea>
                         </section>
                     </div>
-                       <radial-progress-bar
+                    <radial-progress-bar
                         :diameter="175"
                         :completed-steps="completed"
                         :total-steps="project.tasks.filter(e=>e!==undefined && e!==false).map(e => e.subtasks).reduce((a, b) => a = a.concat(b), []).length"
@@ -119,15 +196,21 @@
                 </div>
             </section>
         </div>
-         <div v-else class="text-center flex h-screen w-screen has-background-light">
+        <div
+            v-else
+            class="text-center flex h-screen w-screen has-background-light"
+        >
             <div class="flex-auto m-auto">
-               <p v-if="error" class="text-red-600">
-                   {{error}}
-                   <nuxt-link to="/">
-                    <p class="underline cursor-pointer text-blue-300">Go Back Home -></p>
-                   </nuxt-link>
-               </p>
-               <p v-else>Loading Project...</p>
+                <p
+                    v-if="error"
+                    class="text-red-600"
+                >
+                    {{error}}
+                    <nuxt-link to="/">
+                        <p class="underline cursor-pointer text-blue-300">Go Back Home -></p>
+                    </nuxt-link>
+                </p>
+                <p v-else>Loading Project...</p>
             </div>
         </div>
     </div>
@@ -141,62 +224,62 @@ import { ToastProgrammatic as Toast } from 'buefy'
 
 
 export default {
-    middleware:'auth',
-    async mounted(){
+    middleware: 'auth',
+    async mounted() {
 
-        if(!this.id || this.id.trim() == ''){
+        if (!this.id || this.id.trim() == '') {
             this.error = "Whatcha Doing Here?"
             return;
         }
 
-        try{
-             const res = await axios.get(state.GLOBALS.BASE_URL + `/projects/get_project_from_id/${this.id}`,{
-                    headers: {
-                        authorization: `Bearer ${state.token}`
-                    }
-             })
-             
-             this.oldProject = JSON.parse(JSON.stringify(res.data.data))
-             this.project = JSON.parse(JSON.stringify(res.data.data))
-        }catch (e) {
+        try {
+            const res = await axios.get(state.GLOBALS.BASE_URL + `/projects/get_project_from_id/${this.id}`, {
+                headers: {
+                    authorization: `Bearer ${state.token}`
+                }
+            })
+
+            this.oldProject = JSON.parse(JSON.stringify(res.data.data))
+            this.project = JSON.parse(JSON.stringify(res.data.data))
+        } catch (e) {
             this.error = "Unknown Project. Are you lost?"
         }
     },
     data() {
         return {
-            active:false,
-            error:false,
+            active: false,
+            error: false,
             globalIndex: 0,
-            forms:{
-                username:"",
-                banner:"",
+            forms: {
+                username: "",
+                banner: "",
             },
             ui: {
-                options:false,
+                options: false,
                 editTitle: false,
                 editDesc: false,
                 changeImage: false,
                 share: false,
             },
-            oldProject:false,
-            project:false,
+            oldProject: false,
+            project: false,
         }
     },
     components: {
         RadialProgressBar
     },
     methods: {
-        async saveProject(){
-            if(!this.changes){
+        async saveProject() {
+            if (!this.changes) {
                 return;
             }
             state.loading = true
 
-            try{
-                const res = await axios.post(state.GLOBALS.BASE_URL + '/projects/save',{
+            try {
+                const res = await axios.post(state.GLOBALS.BASE_URL + '/projects/save', {
                     project_id: this.id,
-                    data:this.project
-                },{
+                    data: this.project
+                }, {
                     headers: {
                         authorization: `Bearer ${state.token}`
                     }
@@ -214,26 +297,26 @@ export default {
             }
 
         },
-        async shareProject(){
-            if(this.forms.username.trim() == ''){
+        async shareProject() {
+            if (this.forms.username.trim() == '') {
                 return;
             }
             state.loading = true
 
-            try{
-                const res = await axios.post(state.GLOBALS.BASE_URL + '/projects/add_user',{
+            try {
+                const res = await axios.post(state.GLOBALS.BASE_URL + '/projects/add_user', {
                     project_id: this.id,
-                    username:this.forms.username
-                },{
+                    username: this.forms.username
+                }, {
                     headers: {
                         authorization: `Bearer ${state.token}`
                     }
                 })
-                Toast.open({message:res.data.msg,type:'is-success'})
+                Toast.open({ message: res.data.msg, type: 'is-success' })
                 this.forms.username = ''
                 state.loading = false
-            }catch(e){
-                this.$swal("Error in Sharing!",`Try again later`,'error')
+            } catch (e) {
+                this.$swal("Error in Sharing!", `Try again later`, 'error')
                 this.forms.username = ''
                 state.loading = false
             }
@@ -271,7 +354,7 @@ export default {
 
             }
         },
-         async submitProject() {
+        async submitProject() {
             const confirm = await this.$swal({
                 title: 'Are you sure?',
                 text: "Only the owner can submit this project, and you can't modify it after it is sent!",
@@ -315,7 +398,7 @@ export default {
         },
         removeTask(t) {
 
-            this.project.tasks = this.project.tasks.filter(tsk=>tsk !== t)
+            this.project.tasks = this.project.tasks.filter(tsk => tsk !== t)
             this.$forceUpdate()
         },
         triggerSwitch(focus) {
@@ -330,10 +413,10 @@ export default {
         }
     },
     computed: {
-        state(){
+        state() {
             return state
         },
-        changes(){
+        changes() {
             return JSON.stringify(this.oldProject) !== JSON.stringify(this.project)
         },
         id() {
@@ -350,16 +433,16 @@ export default {
 </script>
 
 <style>
-.noti-badge{
+.noti-badge {
     position: absolute;
-    top:-2.5px;
-    right:-2.5px;
+    top: -2.5px;
+    right: -2.5px;
     width: 15px;
     height: 15px;
     background-color: var(--warning);
     border-radius: 50%;
 }
-.noti{
+.noti {
     position: relative;
 }
 input.seamless-input {
