@@ -27,6 +27,7 @@
                             class="m-4"
                             :value="event.base"
                             :max="event.maxHealth"
+                            :show-value="true"
                         ></b-progress>
                     </div>
                     <div class="bg-white text-black has-text-centered p-4 py-20 rounded-2xl shadow-md">
