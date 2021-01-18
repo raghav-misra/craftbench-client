@@ -15,7 +15,7 @@
                         Craftbench
                     </h1>
                     <div class="subtitle">
-                        The best project management platform.
+                        Motivation, Teamwork, Management, Projects Made Simple
                     </div>
                 </div>
                 <div class="left-image column">

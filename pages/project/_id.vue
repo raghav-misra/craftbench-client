@@ -35,25 +35,43 @@
                     </radial-progress-bar>
                     <div class="inline-block">
                         <b-field>
-                            <b-button v-if="!ui.changeImage" @click="triggerSwitch('changeImage')" type="is-info" class="inline-block">Change Banner
+                            <b-button
+                                v-if="!ui.changeImage"
+                                @click="triggerSwitch('changeImage')"
+                                type="is-info"
+                                class="inline-block"
+                            >Change Banner
                             </b-button>
-                            <b-input v-else type="url" placeholder="Image Url" v-model="project.banner"
-                                @focusout.native="triggerSwitch('changeImage')" ref="changeImage"></b-input>
+                            <b-input
+                                v-else
+                                type="url"
+                                placeholder="Image Url"
+                                v-model="project.banner"
+                                @focusout.native="triggerSwitch('changeImage')"
+                                ref="changeImage"
+                            ></b-input>
                         </b-field>
                         <b-collapse :open="false">
-                        <template #trigger>
-                            <b-button type="is-info">Share Project</b-button>
-                        </template>
-                        <form>
-                            <b-field>
-                            <b-button type="is-success" native-type="submit">Share</b-button>
-                            <b-input type="email" required placeholder="Email"
-                                ref="share"></b-input>
-                            </b-field>
-                        </form>
+                            <template #trigger>
+                                <b-button type="is-info">Share Project</b-button>
+                            </template>
+                            <form>
+                                <b-field>
+                                    <b-button
+                                        type="is-success"
+                                        native-type="submit"
+                                    >Share</b-button>
+                                    <b-input
+                                        type="email"
+                                        required
+                                        placeholder="Email"
+                                        ref="share"
+                                    ></b-input>
+                                </b-field>
+                            </form>
                         </b-collapse>
                     </div>
-                    </section>
+                </section>
                 <section class="opacity-20 hover:opacity-100 h-screen duration-200 bg-gray-500 hover:translate-y-0 transform translate-y-52 ">
                     <div class="container p-7 text-white">
                         <b-button
@@ -129,8 +147,8 @@ export default {
             ui: {
                 editTitle: false,
                 editDesc: false,
-                changeImage:false,
-                share:false,
+                changeImage: false,
+                share: false,
             },
             project: {
                 title: "Play Forited",
