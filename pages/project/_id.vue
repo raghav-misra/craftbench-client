@@ -5,65 +5,48 @@
                 class="h-screen col-span-2"
                 :style="`background-image:url('${project.banner}')` "
             >
-                <h1
-                    @click="triggerSwitch('editTitle')"
-                    class="bold font-sans break-normal mx-4 text-white"
-                    v-if="!ui.editTitle"
-                    :style="`text-shadow: 0 4px 8px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);font-size:3vw;`"
-                >{{project.title}}</h1>
-                <section v-else>
-                    <input
-                        v-model="project.title"
-                        @focusout="triggerSwitch('editTitle')"
-                        ref="editTitle"
-                        class="seamless-input seamless-title"
-                    />
-                </section>
-                <section class="absolute">
-                    <radial-progress-bar
-                        :diameter="175"
-                        :completed-steps="completed"
-                        :total-steps="project.tasks.filter(e=>e!==undefined && e!==false).map(e => e.subtasks).reduce((a, b) => a = a.concat(b), []).length"
-                        startColor="#EDDDD4"
-                        stopColor="#EDDDD4"
-                        class="inline-block"
-                    >
-                        <p
-                            class="text-white text-center"
-                            style="text-shadow: 0 4px 8px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);"
-                        >Project Completion!</p>
-                    </radial-progress-bar>
-                    <div class="inline-block">
-                        <b-field>
-                            <b-button v-if="!ui.changeImage" @click="triggerSwitch('changeImage')" type="is-info" class="inline-block">Change Banner
-                            </b-button>
-                            <b-input v-else type="url" placeholder="Image Url" v-model="project.banner"
-                                @focusout.native="triggerSwitch('changeImage')" ref="changeImage"></b-input>
-                        </b-field>
-                        <b-collapse :open="false">
-                        <template #trigger>
-                            <b-button type="is-info">Share Project</b-button>
-                        </template>
-                        <form>
-                            <b-field>
-                            <b-button type="is-success" native-type="submit">Share</b-button>
-                            <b-input type="email" required placeholder="Email"
-                                ref="share"></b-input>
-                            </b-field>
-                        </form>
-                        </b-collapse>
-                    </div>
+                <section class="has-background-info">
+                    <h1 @click="triggerSwitch('editTitle')" class="bold font-sans break-normal mx-4 text-white inline-block" v-if="!ui.editTitle"
+                        :style="`text-shadow: 0 4px 8px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);font-size:3vw;`">{{project.title}}</h1>
+                    <section v-else>
+                        <input v-model="project.title" @focusout="triggerSwitch('editTitle')" ref="editTitle" class="seamless-input seamless-title" />
                     </section>
-                <section class="opacity-20 hover:opacity-100 h-screen duration-200 bg-gray-500 hover:translate-y-0 transform translate-y-52 ">
+                    <b-button type="is-primary is-light" class="float-right m-5" rounded @click="ui.options = !ui.options">Options</b-button>
+                    <b-collapse :open="ui.options">
+                        <section class="w-full py-4">
+                            <b-button type="is-primary" @click="addTask()">Add Task</b-button>
+                            <b-button type="is-success" class="animate-bounce">Save</b-button>
+                            <b-dropdown aria-role="list">
+                                <template #trigger="{ active }">
+                                    <b-button label="More" type="is-primary" :icon-right="active ? 'menu-up' : 'menu-down'" />
+                                </template>
+                                <b-dropdown-item aria-role="listitem" @click="ui.share = true">Share</b-dropdown-item>
+                                <b-dropdown-item aria-role="listitem" @click="ui.changeImage = true">Change Background Image</b-dropdown-item>
+                            </b-dropdown>
+                        </section>
+                    </b-collapse>
+                </section>
+                <section v-if="ui.share" class="bg-white shadow-md p-10">
+                    <form @submit.prevent="">  
+                         <b-field label="Share Project Via Email">
+                             <b-input type="email" v-model="forms.email" required>
+                             </b-input>
+                         </b-field>
+                         <b-button type="is-success" native-type="submit">Share</b-button>
+                    </form>
+                </section>
+                 <section v-if="ui.changeImage" class="bg-white shadow-md p-10">
+                    <form @submit.prevent="project.banner = forms.banner; ui.changeImage = false">  
+                         <b-field label="Change Background Image">
+                             <b-input type="url" v-model="forms.banner" required>
+                             </b-input>
+                         </b-field>
+                         <b-button type="is-success" native-type="submit">Save</b-button>
+                    </form>
+                </section>
+                <section class="opacity-20 hover:opacity-100 h-screen duration-200 bg-gray-500 hover:-translate-y-20 transform translate-y-52 ">
                     <div class="container p-7 text-white">
-                        <b-button
-                            type="is-primary"
-                            @click="addTask()"
-                        >Add Task</b-button>
-                        <b-button
-                            type="is-success"
-                            class="animate-bounce"
-                        >Save</b-button>
+                       
                         <br><br>
                         <p
                             @click="triggerSwitch('editDesc')"
@@ -125,8 +108,14 @@ import RadialProgressBar from 'vue-radial-progress'
 export default {
     data() {
         return {
+            active:false,
             globalIndex: 0,
+            forms:{
+                email:"",
+                banner:"",
+            },
             ui: {
+                options:false,
                 editTitle: false,
                 editDesc: false,
                 changeImage:false,
