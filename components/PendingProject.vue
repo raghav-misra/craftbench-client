@@ -10,7 +10,7 @@
                     v-else
                     class="bg-yellow-200 px-4 italic opacity-100"
                 >Title Private</span>
-                <p class="opacity-100">{{project.contribution}}</p>
+                <p class="opacity-100">{{contribution}}</p>
 
                 <a
                     v-if="project.public"
@@ -40,6 +40,7 @@
 
 <script>
 import RadialProgressBar from 'vue-radial-progress'
+import state from "../state";
 export default {
     props: {
         project: Object,
@@ -48,6 +49,7 @@ export default {
         RadialProgressBar
     },
     computed: {
+        contribution(){ return state.events[state.currentEventName].contributions[this.project.contributionType][this.project.contribution] },
         completed() {
             return this.project.tasks.map(e => e.subtasks).reduce((a, b) => a = a.concat(b), []).filter(e => e.completed).length
         },

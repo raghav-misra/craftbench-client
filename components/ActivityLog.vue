@@ -5,7 +5,7 @@
           <p>{{action.rawString}}</p>
       </section>
       <section v-else>
-      <span class="bg-blue-400 px-3">{{action.username}}</span> <span>Contributed {{currentContributions}}!</span>
+      <span class="bg-blue-400 px-3">{{action.username}}</span> <span>Contributed {{contribution}}!</span>
       <p class="text-gray-300 italic">&nbsp; - And {{event.words.dealt}} {{action.damage}} {{event.words.damage}}</p>
       </section>
   </div>
@@ -19,7 +19,7 @@ export default {
         action:Object
     },
     computed:{
-        contribution(){ return state.events[state.currentEventName].contributions[action.contributionType][action.contribution] }
+        contribution(){ return state.events[state.currentEventName].contributions[this.action.contributionType][this.action.contribution] }
     }
 
 }

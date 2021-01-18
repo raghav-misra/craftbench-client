@@ -5,7 +5,6 @@
         class="overflow-y-scroll has-background-dark text-white h-screen"
         :style="{'backgroundImage':'url(/event/' + currentEventName + '/background.jpg)'}"
     >
-        {{ eventID }}
         <div class="container">
             <h1
                 class="has-text-centered text-7xl p-2 font-bold tracking-in-expand-fwd-top text-sh"
@@ -19,15 +18,15 @@
                 <section>
                     <div class="max-w-md min-w-md">
                         <img
-                            :src="require(`~/assets/event/${currentEventName}/targets/${region.targetID}.png`)"
+                            :src="require(`~/assets/event/${currentEventName}/targets/${event.targetId}.png`)"
                             style="margin-top: 4rem;"
                             class="float max-w-md"
                         />
                         <b-progress
                         type="is-success"
                             class="m-4"
-                            :value="region.base"
-                            :max="region.maxHealth"
+                            :value="event.base"
+                            :max="event.maxHealth"
                         ></b-progress>
                     </div>
                     <div class="bg-white text-black has-text-centered p-4 py-20 rounded-2xl shadow-md">
@@ -83,14 +82,16 @@ export default Vue.extend({
         }
 
         try{
-             const res = await axios.get(state.GLOBALS.BASE_URL + `/projects/get_by_region/${this.eventID}`,{
+             const res = await axios.get(state.GLOBALS.BASE_URL + `/event/get_by_region/${this.eventID}`,{
                     headers: {
                         authorization: `Bearer ${state.token}`
                     }
              })
+             console.log(JSON.parse(JSON.stringify(res.data)))
              res.data.event.projects = res.data.projects
              this.event = JSON.parse(JSON.stringify(res.data.event))
         }catch (e) {
+            console.log(e)
             this.error = "Unknown Region. Are you lost?"
         }
     },
