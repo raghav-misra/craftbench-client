@@ -1,5 +1,7 @@
 <template>
-    <div
+ <div>
+      
+    <div v-if="event !== false"
         class="overflow-y-scroll has-background-dark text-white h-screen"
         :style="{'backgroundImage':'url(/event/' + currentEventName + '/background.jpg)'}"
     >
@@ -12,44 +14,32 @@
             <p
                 class="has-text-centered text-2xl"
                 style=" text-shadow: 0 2px 4px rgba(0,0,0,0.10);"
-            >At REGION NAME</p>
+            >At {{event.region}}</p>
             <div class="md:grid grid-cols-2 gap-24">
                 <section>
                     <div class="max-w-md min-w-md">
                         <img
-                            :src="require(`~/assets/event/${currentEventName}/targets/0.png`)"
+                            :src="require(`~/assets/event/${currentEventName}/targets/${region.targetID}.png`)"
                             style="margin-top: 4rem;"
                             class="float max-w-md"
                         />
                         <b-progress
                         type="is-success"
                             class="m-4"
-                            :value="60"
+                            :value="region.base"
+                            :max="region.maxHealth"
                         ></b-progress>
                     </div>
                     <div class="bg-white text-black has-text-centered p-4 py-20 rounded-2xl shadow-md">
                         <h1 class="text-lg bold">~Activity Log~</h1>
                         <div class="max-h-52 overflow-scroll overflow-x-hidden">
                             <ActivityLog
+                                 v-for="(action,i) in event.activityLog"
+                                 :key="`action-${i}`"
                                 :event="currentEvent"
-                                :action="{username: 'Raghav', contribute: 'Fire Arrows', damage:10}"
+                                :action="action"
                             />
-                            <ActivityLog
-                                :event="currentEvent"
-                                :action="{username: 'Raghav', contribute: 'Fire Arrows', damage:10}"
-                            />
-                            <ActivityLog
-                                :event="currentEvent"
-                                :action="{username: 'Raghav', contribute: 'Fire Arrows', damage: 10}"
-                            />
-                            <ActivityLog
-                                :event="currentEvent"
-                                :action="{username: 'Raghav', contribute: 'Fire Arrows', damage: 10}"
-                            />
-                            <ActivityLog
-                                :event="currentEvent"
-                                :action="{ rawString: 'Raghav', contribute: 'Fire Arrows', damage: 10 }"
-                            />
+
                         </div>
                     </div>
                 </section>
@@ -59,27 +49,56 @@
                         style="max-height: 40rem"
                         class="group-hover:overflow-y-scroll overflow-y-hidden"
                     >
-                        <PendingProject :project="{name:'History Day Project',public:false,contribution:'Anti Dragon Magic',canViewTitle:true,tasks:[{subtasks:[{completed:true},{completed:true}]},{subtasks:[{completed:false}]},{subtasks:[{completed:false}]}]}" />
-                        <PendingProject :project="{name:'History Day Project',public:false,canViewTitle:true,tasks:[{subtasks:[{completed:true},{completed:true}]},{subtasks:[{completed:false}]},{subtasks:[{completed:false}]}]}" />
-                        <PendingProject :project="{name:'History Day Project',public:false,contribution:'Hyperspeed Bows',canViewTitle:false,tasks:[{subtasks:[{completed:true},{completed:true}]},{subtasks:[{completed:false}]},{subtasks:[{completed:false}]}]}" />
-                        <PendingProject :project="{name:'Fortnite Streaming',public:true,contribution:'Hyperspeed Bows',canViewTitle:false,tasks:[{subtasks:[{completed:false},{completed:false}]},{subtasks:[{completed:false}]},{subtasks:[{completed:false}]}]}" />
-                        <PendingProject :project="{name:'Fortnite Streaming',public:false,contribution:'GG Bows',canViewTitle:false,tasks:[{subtasks:[{completed:false},{completed:false}]},{subtasks:[{completed:false}]},{subtasks:[{completed:false}]}]}" />
+                        <PendingProject v-for="(project,i) in event.projects" :key="`action-${i}`" :project="project" />
                     </div>
                 </section>
             </div>
         </div>
     </div>
+     <div v-else class="text-center flex h-screen w-screen has-background-light">
+            <div class="flex-auto m-auto">
+               <p v-if="error" class="text-red-600">
+                   {{error}}
+                   <nuxt-link to="/">
+                    <p class="underline cursor-pointer text-blue-300">Go Back Home -></p>
+                   </nuxt-link>
+               </p>
+               <p v-else>Loading Event...</p>
+            </div>
+        </div>
+ </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import state from "@/state";
 import { IEvent } from "~/@types";
-
+import axios from 'axios'
 export default Vue.extend({
+     async mounted(){
+
+        if(!this.eventID || this.eventID.trim() == ''){
+            this.error = "Whatcha Doing Here?"
+            return;
+        }
+
+        try{
+             const res = await axios.get(state.GLOBALS.BASE_URL + `/projects/get_by_region/${this.eventID}`,{
+                    headers: {
+                        authorization: `Bearer ${state.token}`
+                    }
+             })
+             res.data.event.projects = res.data.projects
+             this.event = JSON.parse(JSON.stringify(res.data.event))
+        }catch (e) {
+            this.error = "Unknown Region. Are you lost?"
+        }
+    },
     data() {
         return {
-            currentType: "dragon"
+            currentType: "dragon",
+            error:false as boolean|string,
+            event:false,
         }
     },
     computed: {
