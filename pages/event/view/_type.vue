@@ -88,11 +88,9 @@ export default Vue.extend({
                         authorization: `Bearer ${state.token}`
                     }
              })
-             console.log(JSON.parse(JSON.stringify(res.data)))
-             res.data.event.projects = res.data.projects
-             this.event = JSON.parse(JSON.stringify(res.data.event))
+             res.data.data.event.projects = res.data.data.projects
+             this.event = JSON.parse(JSON.stringify(res.data.data.event))
         }catch (e) {
-            console.log(e)
             this.error = "Unknown Region. Are you lost?"
         }
     },
